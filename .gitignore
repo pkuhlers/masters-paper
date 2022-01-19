@@ -1,0 +1,4 @@
+.Rhistory
+.Rproj*
+*.pdf
+source_data/*
