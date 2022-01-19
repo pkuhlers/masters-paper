@@ -1,0 +1,32 @@
+---
+title: "Project Proposal"
+author: "Peyton Kuhlers"
+date: "1/18/2022"
+output: pdf_document
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Patient Derived Xenografts (PDX) are *in vivo* cancer models
+in which patient-derived tumors are taken and engrafted into immuno-deficient mice.
+Once established, PDXs can be used as platforms for drug discovery or
+investigation of *in vivo* drug mechanisms.
+
+The PDX Development and Trial Centers Research Network (PDXNet) is an
+NCI consortium that has generated publicly available for
+PDX models across a large number of cancer types.
+This data includes genomic characterizations and tumor growth measurements for
+a variety of drugs.
+
+My goal is to analyze the drug response data of one or two
+cancers to determine if any of the drugs have a significant effect 
+on the growth of tumors in PDX models.
+Growth data for colon cancer includes ~2700 volume measurements,
+7 drugs (and 1 control), and 263 mice originating from 7 unique patients.
+
+Because there is also a wealth of genomic data available as well,
+I may incorporate data such as tumor mutation or subtype --if feasible--
+to identify any mutation or subtype specific drug responses.
