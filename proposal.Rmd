@@ -1,8 +1,8 @@
 ---
 title: "Project Proposal"
 author: "Peyton Kuhlers"
-date: "1/18/2022"
 output: pdf_document
+geometry: "left=2cm,right=2cm,top=0.25cm,bottom=1.5cm"
 fontsize: 12pt
 ---
 
@@ -13,20 +13,46 @@ knitr::opts_chunk$set(echo = TRUE)
 Patient Derived Xenografts (PDX) are *in vivo* cancer models
 in which patient-derived tumors are taken and engrafted into immuno-deficient mice.
 Once established, PDXs can be used as platforms for drug discovery or
-investigation of *in vivo* drug mechanisms.
-
+investigation of *in vivo* drug mechanisms (1).
 The PDX Development and Trial Centers Research Network (PDXNet) is an
 NCI consortium that has generated publicly available for
 PDX models across a large number of cancer types.
 This data includes genomic characterizations and tumor growth measurements for
 a variety of drugs.
 
-My goal is to analyze the drug response data of one or two
-cancers to determine if any of the drugs have a significant effect 
-on the growth of tumors in PDX models.
+Evrard et al (2) used multiple strategies to evaluate tumor response
+from three PDX models treated with temozolomide.
+These included percent change in tumor volume,
+area under the curve, and progression free survival, among others,
+but did not use any linear models of the volume measurements directly.
+Pearson et al (3) characterized the growth rates of PDX tumors
+across passages using linear mixed models and noted that
+tumor volumes on the log-scale seem to grow quadratically.
+
+My proposal is to analyze the drug response data
+available from the PDXnet for one or two
+cancers to determine if any of the tested drugs significantly inhibit
+tumor growth.
+Data will be downloaded from the PDXNet online portal
+(https://portal.pdxnetwork.org/).
 Growth data for colon cancer includes ~2700 volume measurements,
 7 drugs (and 1 control), and 263 mice originating from 7 unique patients.
+I plan to use a linear model fit with generalized least squares
+to determine if any treatments slow tumor growth.
+Additionally, I plan to use a mixed model approach to
+investigate the variation in response to treatment.
 
-Because there is also a wealth of genomic data available as well,
-I may incorporate data such as tumor mutation or subtype --if feasible--
-to identify any mutation or subtype specific drug responses.
+The PDXNet portal also contains genomic data,
+such as tumor mutational burden (TMB)
+and homologous recombination defficiency analysis (HRD),
+which may impact response to treatment (4,5).
+I aim to incorporate TMB and HRD measurements into the linear models and
+test for their effect on tumor growth and interaction with treatment.
+
+References
+----------
+1) Tentler, J., Tan, A., Weekes, C. et al. Patient-derived tumour xenografts as models for oncology drug development. Nat Rev Clin Oncol 9, 338–350 (2012). https://doi.org/10.1038/nrclinonc.2012.61
+2) Evrard, Yvonne A et al. “Systematic Establishment of Robustness and Standards in Patient-Derived Xenograft Experiments and Analysis.” Cancer research vol. 80,11 (2020): 2286-2297. doi:10.1158/0008-5472.CAN-19-3101
+3) Pearson, Alexander T., et al. "Patient-derived xenograft (PDX) tumors increase growth rate with time." Oncotarget [Online], 7.7 (2016): 7993-8005. Web. 2 Feb. 2022 
+4) Yarchoan, Mark et al. “Tumor Mutational Burden and Response Rate to PD-1 Inhibition.” The New England journal of medicine vol. 377,25 (2017): 2500-2501. doi:10.1056/NEJMc1713444
+5) Aguirre, Andrew J et al. “Real-time Genomic Characterization of Advanced Pancreatic Cancer to Enable Precision Medicine.” Cancer discovery vol. 8,9 (2018): 1096-1111. doi:10.1158/2159-8290.CD-18-0275
