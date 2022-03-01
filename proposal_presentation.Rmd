@@ -1,0 +1,72 @@
+---
+title: "Proposal Presentation"
+author: "Peyton Kuhlers"
+date: "3/2/2022"
+output: 
+  beamer_presentation:
+    theme: "AnnArbor"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## Background
+
+- Patient Derived Xenografts (PDX) are *in vivo* cancer models used as platforms
+for drug discovery, biomarker identification, and mechanistic studies\footnote{Tentler et al 2012}
+
+\centering
+\includegraphics[width = 8cm, height = 4cm]{figures/pdx_graphic.png}
+
+\note{Both in PDXnet and in the literature in general}
+
+## Background Cont.
+
+- The PDXNet is an NCI-sponsored consortium aimed at using PDX models
+for high-throughput development and testing of cancer therapies
+
+- Much work has centered around genomic characterization of PDX models\footnote{Sun et al 2021}\textsuperscript{,}\footnote{Woo et al 2020}
+
+- While data is available, comparatively less work has focused on 
+analysis of tumor growth data in PDX models.
+
+## Previous Work
+
+- PDXNet collaborators\footnote{Evrard et al 2020} tested multiple
+different strategies for analyzing tumor growth under treatment
+  + Percent change
+  + Modified RECIST
+  + Area Under the Growth Curve
+  + "Tumor growth inhibition"
+
+\note{Lots of ignored data, not modelling the entire time course}
+\note{Plus multiple clusters, mouse, patient, etc}
+
+- In contrast, Pearson\footnote{Pearson et al 2016} and Oberg\footnote{Oberg et al 2021}
+used mixed models to analyze growth over multiple passages and treatment effects, respectively.
+
+## Proposal
+
+- Given PDXs are meant for high-throughput discovery,
+robust and **efficient** methods are necessary
+  + Inefficient statistical methods waste resources
+
+- My proposal is to used a mixed model approach to analyze the PDXNet growth data
+
+## Data
+
+- Growth data for colon cancer includes ~2700 volume measurements,
+7 drugs (and 1 control), and 263 mice originating from 7 unique patients.
+
+\centering
+\includegraphics[width = 9cm, height = 5.5cm]{figures/growth_plots.pdf}
+
+## Model
+
+
+
+
+
+
+
