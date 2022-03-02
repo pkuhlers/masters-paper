@@ -1,5 +1,5 @@
 ---
-title: "Proposal Presentation"
+title: "Analysis of PDX Growth Data"
 author: "Peyton Kuhlers"
 date: "3/2/2022"
 output: 
@@ -7,19 +7,22 @@ output:
     theme: "AnnArbor"
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
 ## Background
 
 - Patient Derived Xenografts (PDX) are *in vivo* cancer models used as platforms
 for drug discovery, biomarker identification, and mechanistic studies\footnote{Tentler et al 2012}
 
+- Becoming preferred model as they preserve donor genomic characteristics
+and allow for microenvironment modelling *in vivo*
+
 \centering
 \includegraphics[width = 8cm, height = 4cm]{figures/pdx_graphic.png}
 
-\note{Both in PDXnet and in the literature in general}
+\note{In contrast to cells in a dish}
 
 ## Background Cont.
 
@@ -30,6 +33,8 @@ for high-throughput development and testing of cancer therapies
 
 - While data is available, comparatively less work has focused on 
 analysis of tumor growth data in PDX models.
+
+\note{Both in PDXnet and in the literature in general}
 
 ## Previous Work
 
@@ -46,13 +51,11 @@ different strategies for analyzing tumor growth under treatment
 - In contrast, Pearson\footnote{Pearson et al 2016} and Oberg\footnote{Oberg et al 2021}
 used mixed models to analyze growth over multiple passages and treatment effects, respectively.
 
-## Proposal
+## Significance
 
 - Given PDXs are meant for high-throughput discovery,
 robust and **efficient** methods are necessary
   + Inefficient statistical methods waste resources
-
-- My proposal is to used a mixed model approach to analyze the PDXNet growth data
 
 ## Data
 
@@ -62,9 +65,29 @@ robust and **efficient** methods are necessary
 \centering
 \includegraphics[width = 9cm, height = 5.5cm]{figures/growth_plots.pdf}
 
-## Model
+## Analysis
 
+- Mixed effects model of tumor growth
 
+\centering
+$E[Y_{i}|b_i] = \beta_0 + b_{i1} + \beta_1(time_{i}) + b_{i2}(time) + \gamma_i (agent_i*time)$
+
+## Result Reporting
+
+- Profile Plots (shown above)
+
+- Forest plot of interaction coefficients
+
+- Table of specific pairwise contrasts between different therapies
+
+- Variance of random effects
+
+- As a secondary analysis, test methods from Evrard et al 
+at e.g. day 75 and compare to model contrasts at day 75.
+
+##
+
+Thank You! Questions?
 
 
 
