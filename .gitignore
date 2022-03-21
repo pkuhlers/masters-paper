@@ -2,3 +2,4 @@
 .Rproj*
 *.pdf
 source_data/*
+.Rproj.user
