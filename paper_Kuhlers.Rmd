@@ -1,0 +1,45 @@
+---
+title: "Analysis of Patient Derived Xenograft Growth Curves"
+author: "Peyton Kuhlers"
+date: "4/6/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+Introduction
+=============
+
+Patient Derived Xenografts (PDX) are *in vivo* cancer models
+in which patient tumors are removed and engrafted into immuno-deficient mice.
+Once established, PDXs can be used as platforms for drug discovery or
+investigation of *in vivo* drug mechanisms (**REFS**).
+
+PDX models have significant advantages over alternative models.
+Standard *in vitro* models typically undergo transformations
+to ensure proper growth and are kept in growth media that is drastically
+different from the tumor enviroment *in vivo*. Additionally, these models
+are "two dimensional" and all three dimensional interactions are
+lost with cell lines (**REFS**).
+PDX models preserve the 3D nature of human tumors and do not require
+transformation, thereby also preserving the genomic characteristics of the
+donor tissue (**REFS**).
+
+
+Methods
+=======
+
+Tumor volume data was obtained from the PDXnet Portal,
+queried for all colon adenocarcinoma.
+
+Results
+=======
+
+\begin{centering}
+\includegraphics[width = 6in, height = 8in]{figures/growth_plots.pdf}
+\end{centering}
+
+Discussion
+===========
