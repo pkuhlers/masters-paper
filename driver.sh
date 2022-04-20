@@ -1,3 +1,5 @@
 ## Driver script to automate analysis and reporting
 
-Rscript src/plot_growth.R
+Rscript src/R/clean.R
+
+Rscript src/R/plot_growth.R
