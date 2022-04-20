@@ -38,12 +38,14 @@ fitM <- glmer(
 summary(fitM)
 saveRDS(fitM, "derived_data/colon_month_glmer.rds")
 
+## Random slope and intercept by mouse -- months since first observation
 fit_first <- glmer(
   TUMOR_WT ~ months_since_first + months_since_first:drug + (1 + months_since_first|ID),
   data = growth,
   family = gaussian(link = "log")
 )
 summary(fit_first)
+saveRDS(fit_first, "derived_data/colon_month_first_glmer.rds")
 
 ## Random slope and intercept by mouse nested in experiment -- by month
 fitNest <- glmer(
