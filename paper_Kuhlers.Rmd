@@ -1,13 +1,17 @@
 ---
-title: "Analysis of Patient Derived Xenograft Growth Curves"
+title: "Model Based Analysis of Patient Derived Xenograft Growth Curves"
 author: "Peyton Kuhlers"
-date: "4/6/2022"
-output: pdf_document
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    extra_dependencies: ["setspace"]
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F)
 ```
+
+\doublespacing
 
 Introduction
 =============
@@ -31,13 +35,22 @@ donor tissue (**REFS**).
 Methods
 =======
 
-Mice were randomized to treatment groups and did not begin observation
-until reaching a tumor volume of 150-200mm^3 (Evrard et al).
-
-### Data Processing
+### Data Acquisition and Processing
 
 Tumor volume data was obtained from the PDXnet Portal,
 queried for all available colon adenocarcinoma.
+All data were contributed from the NCI Patient-Derived Models Repository (PDMR).
+Mice were staged to a tumor volume of 200mm^3^ (Evrard et al, NCI SOP, Alley et al)
+before being randomized to a treatment group.
+Tumors were measured by caliper 1-3 times per week,
+potentially more depending on the health of animal (Evrard et al, NCI SOP).
+The exact study endpoints for this data were not documented,
+however Evrard et al performed a similar study with data from the PDMR,
+where the study endpoints were "Animal health, Max. tumor size, 4000mm^3^,
+or 300 days, if max. TV not reached" (See Table 1 of Evrard et al).
+Additionally, the PDMR standard operating procedures
+recommend harvesting tumors at 1000-2000mg.
+The distribution of maximum tumor volumes in this dataset reflects this.
 Observation days were rescaled to the number of days the sample
 was observed, so that the time origin was 0 for all samples.
 For example, if the mouse was staged on observation day 30,
@@ -48,14 +61,51 @@ days since day 30. Days were then rescaled to months.
 
 Tumor volumes were analyzed using generalized linear mixed effects models.
 Fixed effects included were time and the time-drug interaction.
-The drug main effect was not included to model equal mean weight
+The drug main effect was not included to model equal mean volume
 at baseline amongst all treatment groups.
+A random intercept and random time slope were included for each mouse.
+
+### "Naive" Accelerated Failure Time Model
+
+In addition to analyzing tumor volumes directly, time-to-event was
+also analyzed. Since only 2 mice achieved 4000mm^3^,
+the volume endpoint was readjusted 1500mm^3^,
+which was the 25^th^ percentile of volumes in this study.
+A censoring indicator was constructed for whether or not
+1500mm^3^ was achieved.
+Time was taken as the day with the closest measurement to 1500mm^3^.
+With these data, a Weibull accerated failure time (AFT) model was fit.
+
+### "Imputed" Accelerated Failure Time Model
+
+Since some mice exceed 1500mm^3^ (potentially by a substantial amount)
+a "model imputed" time-to-event analysis was also considered.
+If, for example, a mouse achieved 1500mm^3^ on day 30,
+but was not measured until day 40 at 1700mm^3^,
+we can consider time as "measured with error" and will
+over-estimate the treatment effect.
+Conversely, if we only measure 1000mm^3^ on day 20,
+we will be under-estimating the treatment effect.
+To address this, the above mixed effects model was solved
+for time, using the mouse-specific random effects
+to obtain a "model-imputed" time to 1500mm^3^ for each mouse.
+These model imputed estimates were then used to fit
+a Weibull AFT model. For this analysis it was assumed all mice reached
+1500mm^3^ (i.e. no censoring).
 
 Results
 =======
 
 \begin{centering}
-\includegraphics[width = 6in, height = 8in]{figures/growth_plots.pdf}
+\includegraphics[width = 6in, height = 8in]{figures/growth_rescaled_days.pdf}
+\end{centering}
+
+\begin{centering}
+\includegraphics[width = 6in, height = 8in]{figures/mixed_forest.pdf}
+\end{centering}
+
+\begin{centering}
+\includegraphics[width = 6in, height = 8in]{figures/aft_models_overlaid_forest.pdf}
 \end{centering}
 
 Discussion
