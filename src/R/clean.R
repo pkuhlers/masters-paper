@@ -1,5 +1,5 @@
 library(tidyverse)
-growth <- read.csv("source_data/pdx_colon.csv") %>%
+growth <- read.csv("source_data/pdx_colon.csv", row.names = 1) %>%
   mutate(
     day = OBS_DAY - 7,
     month = OBS_DAY / 30,
@@ -14,6 +14,7 @@ growth <- read.csv("source_data/pdx_colon.csv") %>%
     total_obs = length(OBS_DAY),
     days_to_1500 = days_since_first[which.min(1500 - TUMOR_WT)]
   ) %>%
-  ungroup()
+  ungroup() %>%
+  distinct()
 
 write.csv(growth, "derived_data/pdx_colon_clean.csv")
