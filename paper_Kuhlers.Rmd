@@ -31,8 +31,25 @@ donor tissue (**REFS**).
 Methods
 =======
 
+Mice were randomized to treatment groups and did not begin observation
+until reaching a tumor volume of 150-200mm^3 (Evrard et al).
+
+### Data Processing
+
 Tumor volume data was obtained from the PDXnet Portal,
-queried for all colon adenocarcinoma.
+queried for all available colon adenocarcinoma.
+Observation days were rescaled to the number of days the sample
+was observed, so that the time origin was 0 for all samples.
+For example, if the mouse was staged on observation day 30,
+this became day 0, and all subsequent measurements on this mouse were scaled to
+days since day 30. Days were then rescaled to months.
+
+### Mixed Effects Model
+
+Tumor volumes were analyzed using generalized linear mixed effects models.
+Fixed effects included were time and the time-drug interaction.
+The drug main effect was not included to model equal mean weight
+at baseline amongst all treatment groups.
 
 Results
 =======
