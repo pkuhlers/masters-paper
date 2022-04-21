@@ -2,6 +2,8 @@
 library(tidyverse)
 library(survival)
 library(survminer)
+library(sjPlot)
+theme_set(theme_classic())
 growth <- read.csv("derived_data/pdx_colon_clean.csv", row.names = 1) %>%
   mutate(drug = relevel(factor(AgentName), ref = "Control"))
 
@@ -12,15 +14,19 @@ growth <- read.csv("derived_data/pdx_colon_clean.csv", row.names = 1) %>%
 
 aft <- survreg(Surv(days_to_1500, reached_1500) ~ drug, data = growth %>% filter(total_obs > 1))
 summary(aft)
-saveRDS(aft, "derived_data/aft_model.rds")
+
+pdf("figures/naive_aft_forest.pdf")
+plot_model(aft, rm.terms = "Log(scale)", title = "", sort.est = T, axis.title = c("Acceleration Factors", ""))
+dev.off()
 
 ## Kaplan Meier plot to complement the AFT
+pdf("figures/naive_km.pdf")
 ggsurvplot(
   survfit(Surv(days_to_1500, reached_1500) ~ drug, data = growth),
   linetype = c("dashed", rep("solid", 7)),
   censor.shape = "|"
 )
-
+dev.off()
 
 ###########################################
 ## Mixed model imputed AFT
@@ -50,9 +56,27 @@ mm_impute <-
 
 imputed_aft <- survreg(Surv(imputed_time_to_1500) ~ drug, data = mm_impute)
 summary(imputed_aft)
-saveRDS(imputed_aft, "derived_data/colon_imputed_aft.rds")
+
+pdf("figures/imputed_aft_forest.pdf")
+plot_model(imputed_aft, rm.terms = "Log(scale)", title = "", sort.est = T, axis.title = c("Acceleration Factors", ""))
+dev.off()
+
 ggsurvplot(
   survfit(Surv(imputed_time_to_1500 * 30) ~ drug, data = mm_impute),
   linetype = c("dashed", rep("solid", 7)),
   censor.shape = "|"
 )
+
+## Compare the two models on the same plot
+pdf("figures/aft_models_overlaid_forest.pdf")
+plot_models(
+  aft,
+  imputed_aft,
+  rm.terms = "Log(scale)",
+  title = "",
+  axis.title = c("Acceleration Factors", ""),
+  m.labels = c("Naive", "Imputed"),
+  legend.title = "Models",
+  axis.lim = c(0.5, 3)
+)
+dev.off()
