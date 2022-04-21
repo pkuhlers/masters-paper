@@ -1,0 +1,88 @@
+---
+title: "Model Based Analysis of Patient Derived Xenograft Tumor Volumes"
+author: "Peyton Kuhlers"
+date: "4/25/2022"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Background
+
+- Patient Derived Xenografts (PDX) are *in vivo* cancer models used as platforms
+for drug discovery, biomarker identification, and mechanistic studies\footnote{Tentler et al 2012}
+
+- Becoming preferred model as they preserve donor genomic characteristics
+and allow for microenvironment modelling *in vivo*
+
+\centering
+\includegraphics[width = 8cm, height = 4cm]{figures/pdx_graphic.png}
+
+\note{In contrast to cells in a dish}
+
+## Background Cont.
+
+- The PDXNet is an NCI-sponsored consortium aimed at using PDX models
+for high-throughput development and testing of cancer therapies
+
+- Much work has centered around genomic characterization of PDX models\footnote{Sun et al 2021}\textsuperscript{,}\footnote{Woo et al 2020}
+
+- While data is available, comparatively less work has focused on 
+analysis of tumor growth data in PDX models.
+
+\note{Both in PDXnet and in the literature in general}
+
+## Previous Work
+
+- PDXNet collaborators\footnote{Evrard et al 2020} tested multiple
+different strategies for analyzing tumor growth under treatment
+  + Percent change
+  + Modified RECIST
+  + Area Under the Growth Curve
+  + "Tumor growth inhibition"
+
+- In contrast, Pearson\footnote{Pearson et al 2016} and Oberg\footnote{Oberg et al 2021}
+used mixed models to analyze growth over multiple passages and treatment effects, respectively.
+
+## Significance
+
+- Given PDXs are meant for high-throughput discovery,
+robust and **efficient** methods are necessary
+  + Inefficient statistical methods waste resources
+
+## Data
+
+- Growth data for colon cancer includes ~2700 volume measurements,
+7 drugs (and 1 control), and 263 mice originating from 7 unique patients.
+
+- Mice are randomized to treatments and 'staged' to 150-200mm^3.
+
+- 
+\centering
+\includegraphics[width = 9cm, height = 5.5cm]{figures/growth_plots.pdf}
+
+## Analysis
+
+- Mixed effects model of tumor growth
+
+\centering
+$log(E[Y_{i}|b_i]) = \beta_0 + b_{i1} + \beta_1(time_{i}) + b_{i2}(time) + \gamma_i (agent_i*time)$
+
+## Result Reporting
+
+- Profile Plots (shown above)
+
+- Forest plot of interaction coefficients
+
+- Table of specific pairwise contrasts between different therapies
+
+- Variance of random effects
+
+- As a secondary analysis, test methods from Evrard et al 
+at e.g. day 75 and compare to model contrasts at day 75.
+
+##
+
+Thank You! Questions?
