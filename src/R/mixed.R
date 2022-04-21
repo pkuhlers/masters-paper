@@ -1,6 +1,7 @@
 ## Analysis of colon PDX growth using mixed models
 library(tidyverse)
 library(lme4)
+library(glmmTMB)
 growth <- read.csv("derived_data/pdx_colon_clean.csv") %>%
   mutate(drug = relevel(factor(AgentName), ref = "Control"),
          months_since_first = days_since_first/30)
@@ -11,23 +12,6 @@ fit0 <- glm(
   data = growth,
   family = gaussian(link = "log"))
 summary(fit0)
-
-# ## Random Intercept by mouse
-# fit1 <- glmer(
-#   TUMOR_WT ~ OBS_DAY + OBS_DAY:drug + (1|ID),
-#   data = growth,
-#   family = gaussian(link = "log")
-# )
-# summary(fit1)
-#
-# ## Random slope and intercept by mouse
-# fit2 <- glmer(
-#   TUMOR_WT ~ OBS_DAY + OBS_DAY:drug + (1 + OBS_DAY|ID),
-#   data = growth,
-#   family = gaussian(link = "log"),
-#   glmerControl(optimizer = "bobyqa")
-# )
-# summary(fit2)
 
 ## Random slope and intercept by mouse -- by month
 fitM <- glmer(
@@ -47,35 +31,13 @@ fit_first <- glmer(
 summary(fit_first)
 saveRDS(fit_first, "derived_data/colon_month_first_glmer.rds")
 
-## Random slope and intercept by mouse nested in experiment -- by month
-fitNest <- glmer(
-  TUMOR_WT ~ month + month:drug + (1 + month|ExpNameCSV/ID),
-  data = growth,
-  family = gaussian(link = "log")
+
+pdf("figures/mixed_forest.pdf")
+plot_model(
+  fit_first,
+  transform = "exp",
+  rm.terms = "months_since_first",
+  title = "",
+  axis.title = c("Relative Growth Rate", "")
 )
-summary(fitNest)
-
-## Exploring some different model fitting methods
-library(nlme)
-library(MASS)
-## log-linear model fit with PQL
-fit_day_pql <-
-  MASS::glmmPQL(
-    TUMOR_WT ~ OBS_DAY + OBS_DAY:drug,
-    random = ~ OBS_DAY |
-      ID,
-    family = gaussian(link = "log"),
-    data = growth
-  )
-summary(fit_day_pql)
-
-fit_month_pql <-
-  MASS::glmmPQL(
-    TUMOR_WT ~ month + month:drug,
-    random = ~ month |
-      ID,
-    family = gaussian(link = "log"),
-    data = growth
-  )
-summary(fit_month_pql)
-saveRDS(fit, "derived_data/colon_kk")
+dev.off()
