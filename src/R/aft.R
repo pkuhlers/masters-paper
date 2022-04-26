@@ -16,7 +16,15 @@ aft <- survreg(Surv(days_to_1500, reached_1500) ~ drug, data = growth %>% filter
 summary(aft)
 
 pdf("figures/naive_aft_forest.pdf")
-plot_model(aft, rm.terms = "Log(scale)", title = "", sort.est = T, axis.title = c("Acceleration Factors", ""))
+plot_model(
+  aft,
+  rm.terms = "Log(scale)",
+  title = "",
+  axis.labels = rev(levels(growth$drug)[-1]),
+  vline.color = "black",
+  sort.est = T,
+  axis.title = c("Acceleration Factors", "")
+)
 dev.off()
 
 ## Kaplan Meier plot to complement the AFT
@@ -58,7 +66,15 @@ imputed_aft <- survreg(Surv(imputed_time_to_1500) ~ drug, data = mm_impute)
 summary(imputed_aft)
 
 pdf("figures/imputed_aft_forest.pdf")
-plot_model(imputed_aft, rm.terms = "Log(scale)", title = "", sort.est = T, axis.title = c("Acceleration Factors", ""))
+plot_model(
+  imputed_aft,
+  rm.terms = "Log(scale)",
+  title = "",
+  axis.labels = rev(levels(growth$drug)[-1]),
+  vline.color = "black",
+  sort.est = T,
+  axis.title = c("Acceleration Factors", "")
+)
 dev.off()
 
 ggsurvplot(
@@ -75,6 +91,8 @@ plot_models(
   rm.terms = "Log(scale)",
   title = "",
   axis.title = c("Acceleration Factors", ""),
+  axis.labels = rev(levels(growth$drug)[-1]),
+  vline.color = "black",
   m.labels = c("Naive", "Imputed"),
   legend.title = "Models",
   axis.lim = c(0.5, 3)
