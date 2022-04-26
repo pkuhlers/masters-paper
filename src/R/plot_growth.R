@@ -50,6 +50,14 @@ ggplot(vol, aes(x = maxVol)) +
        # title = "Maximum Achieved Tumor Volume")
 dev.off()
 
+## Distribution of time to 1500
+pdf("figures/time_to_1500_hist.pdf")
+ggplot(vol, aes(x = days_to_1500)) +
+  geom_histogram(bins = 20, color = "black", fill = "lightblue") +
+  labs(x = expression(paste("Days to 1500m", m^3)),
+       y = "Frequency")
+dev.off()
+
 ## Distribution of number of follow ups
 pdf("figures/total_obs_hist.pdf")
 ggplot(vol, aes(x = total_obs)) +
