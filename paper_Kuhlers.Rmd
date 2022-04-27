@@ -26,10 +26,16 @@ Standard *in vitro* models typically undergo transformations
 to ensure proper growth and are kept in growth media that is drastically
 different from the tumor enviroment *in vivo*. Additionally, these models
 are "two dimensional" and all three dimensional interactions are
-lost with cell lines (**REFS**).
-PDX models preserve the 3D nature of human tumors and do not require
+lost with cell lines (Tentler, Pompili)
+PDX models preserve the spatial nature of human tumors and do not require
 transformation, thereby also preserving the genomic characteristics of the
-donor tissue (**REFS**).
+donor tissue (Tentler)
+
+The PDX Development and Trial Centers Research Network (PDXNet) is an
+NCI sponsored consortium aimed at using PDX models to investigate
+cancer therapies and reduce the time therapies move from pre-clinical
+to clinical stages (PDXnet Website). Much of the work from the PDXNet
+has focused on genomic characterization,
 
 
 Methods
