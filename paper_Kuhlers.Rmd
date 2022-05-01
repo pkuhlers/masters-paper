@@ -4,7 +4,9 @@ author: "Peyton Kuhlers"
 date: "`r Sys.Date()`"
 output:
   pdf_document:
-    extra_dependencies: ["setspace", "float"]
+    extra_dependencies: ["setspace", "float", "fancybox", "graphicx"]
+bibliography: citations.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/american-medical-association.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -40,37 +42,37 @@ Introduction
 Patient derived xenografts (PDX) are *in vivo* cancer models
 in which patient tumors are removed and engrafted into immuno-deficient mice.
 Once established, PDXs can be used as platforms for drug and biomarker discovery or
-for investigation of drug mechanisms *in vivo* (**REFS**).
+for investigation of drug mechanisms *in vivo*[@tentler_patient-derived_2012; @pompili_patient-derived_2016].
 PDX models have significant advantages over alternative models.
 Standard *in vitro* models typically undergo transformations
 to ensure proper growth and are kept in growth media that is drastically
 different from the tumor enviroment *in vivo*. Additionally, these models
 are "two dimensional" and all three dimensional interactions are
-lost with cell lines (REF Tentler, Pompili)
+lost with cell lines.
 PDX models preserve the spatial nature of human tumors and do not require
 transformation, thereby also preserving the genomic characteristics of the
-donor tissue (REF Tentler)
+donor tissue[@tentler_patient-derived_2012; @pompili_patient-derived_2016; @daniel_primary_2009].
 
 The PDX Development and Trial Centers Research Network (PDXNet) is an
 NCI sponsored consortium aimed at using PDX models to investigate
 cancer therapies and reduce the time therapies move from pre-clinical
-to clinical stages (REF PDXnet Website). Much of the work from the PDXNet
+to clinical stages[@noauthor_notitle_nodate]. Much of the work from the PDXNet
 has focused on genomic characterization and studies identifying
-vulnerabilities and resistances to treatment (REFS).
+vulnerabilities and resistances to treatment.
 While these studies often assess tumor growth over time,
 the methods used to test differences are often limited
-to t-tests and ANOVA (REFS). Evrard et al surveyed a variety of methods
+to t-tests and ANOVA. Evrard et al[@evrard_systematic_2020] surveyed a variety of methods
 for analyzing tumor volumes including percent change, area under the growth
 curve, and RECIST (a criteria for evaluating treatment response).
 Aside from area under the curve, these metrics do not leverage all
 of the available data. Since tumors are generally measured 2-3 times per week,
 there is a wealth of data for assessing growth trajectories in between
-baseline and the final measurement (REF Evrard, NCI?).
+baseline and the final measurement[@evrard_systematic_2020; @noauthor_patient-derived_nodate].
 Pearson et al and Oberg et al are two examples of model based approaches
 for analyzing PDX tumor growth. Pearson et al used mixed effects
 models to analyze growth data over multiple tumor passages and Oberg et al
 detailed strategies for using mixed effects models to evaluate
-treatments in PDXs.
+treatments in PDXs[@pearson_patient-derived_2016; @oberg_statistical_2021].
 The aim of this analysis is to explore a mixed model based approach for analyzing
 PDX tumor volumes, similar to Pearson et al and Oberg et al.
 While mixed models impose more assumptions on the structure of data than
@@ -87,24 +89,23 @@ Methods
 
 Tumor volume data was obtained from the PDXnet Portal,
 queried for all available colon adenocarcinoma.
-All data were contributed from the NCI Patient-Derived Models Repository (PDMR).
-Mice were staged to a tumor volume of 200mm^3^ (Evrard et al, NCI SOP, Alley et al)
-before being randomized to a treatment group.
+All data were contributed from the NCI Patient-Derived Models Repository (PDMR)[@noauthor_patient-derived_nodate].
+Mice were staged to a tumor volume of ~200mm^3^ before being randomized to a treatment group.
 Tumors were measured by caliper 1-3 times per week,
-potentially more depending on the health of animal (Evrard et al, NCI SOP).
+potentially more depending on the health of animal[@evrard_systematic_2020; @noauthor_patient-derived_nodate; @teicher_human_2004].
 The exact study endpoints for this data were not documented,
 however Evrard et al performed a similar study with data from the PDMR,
 where the study endpoints were "Animal health, Max. tumor size, 4000mm^3^,
-or 300 days, if max. TV not reached" (See Table 1 of Evrard et al).
+or 300 days, if max. TV not reached" (See Table 1 of Evrard et al[@evrard_systematic_2020]).
 Additionally, the PDMR standard operating procedures
-recommend harvesting tumors at 1000-2000mg (REF PDMR SOP).
+recommend harvesting tumors at 1000-2000mg[@noauthor_patient-derived_nodate].
 The distribution of maximum tumor volumes in this dataset reflects this.
 Observation days were rescaled to the number of days the sample
 was observed, so that the time origin was 0 for all samples.
 For example, if the mouse was staged on observation day 30,
 this became day 0, and all subsequent measurements on this mouse were scaled to
 days since day 30. Days were then rescaled to months.
-All data processing and analysis were conducted using R/v4.1.0 (REF R core).
+All data processing and analysis were conducted using R/v4.1.0 ([@r-core]).
 
 ### Mixed Effects Model
 
@@ -115,7 +116,7 @@ at baseline amongst all treatment groups.
 Volumes were assumed to be normally distributed and log-linearly
 related to the covariates.
 A random intercept and random time slope were included for each mouse.
-Models were fit using the R package `lme4`/v1.1.27.
+Models were fit using the R package `lme4`/v1.1.27[@bates].
 All confidence intervals are 95% Wald-type intervals.
 
 ### "Naive" Accelerated Failure Time Model
@@ -128,7 +129,7 @@ A censoring indicator was constructed for whether or not
 1500mm^3^ was achieved.
 Time was taken as the day with the closest measurement to 1500mm^3^.
 With these data, a Weibull accelerated failure time model was fit
-with the R package `survival`/v3.2.13 (REF R package)
+with the R package `survival`/v3.2.13[@survival-package].
 
 ### "Imputed" Accelerated Failure Time Model
 
@@ -155,7 +156,7 @@ from 7 colon adenocarcinoma patients. There was a median of 11 volume
 measurements (IQR: 8-15) taken per mouse.
 Mice were measured for a median of 36 days (IQR: 27-50).
 The median final volume for all mice was 1691mm^3^ (IQR: 1542-1974),
-which is in line with recommendations from the PDMR on harvesting volumes (REF NCI).
+which is in line with recommendations from the PDMR on harvesting volumes[@noauthor_patient-derived_nodate].
 In general, log scaled tumor volumes grew linearly with time,
 however, there were some mice with non-linear growth curves on the log scale (Fig. 1).
 As seen in Fig. 1, simple linear regression lines seem to indicate
@@ -164,36 +165,39 @@ are approximately parallel to the control group (flat or negative slopes
 are expected for highly active treatments). Strangely, vemurafenib treated
 tumors appear to be growing faster than control.
 
+\begin{figure}
 \begin{center}
-\begin{figure}[H]
-\includegraphics[width = 6in, height = 8in]{figures/growth_rescaled_days.pdf}
+\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/growth_rescaled_days.pdf}}
 \caption{Log tumor volumes over time.
 Black lines indicate each mouses' growth curve.
 Colored lines are simple linear regressions of log-volume versus time,
 separated by each treatment group}
-\end{figure}
 \end{center}
+\end{figure}
 
 The aim of the mixed effects model analysis was to model the trajectory
 of the growth curve and determine if treatments slow tumor growth.
-Therefore the statistic of interest is the slope,
-which in the mixed model represents the change in the ratio of the
-mean tumor volume in treatment versus control per month.
+Therefore, we are interested in the growth rate (slope) of the tumor growth curve.
+The mixed model coefficients represent the growth rates for each treatment,
+relative to the control groups growth. The coefficients can
+also be interpreted as the change in the ratio of the mean volume in the
+treatment group compared to control per month.
+Values less than 1 indicate the treatment reduces the growth rate relative to control.
 Only gemcitabine and irinotecan were found to significantly reduce
 tumor growth rates compared to control. The relative growth rates
-were 0.60 (95% CI: 0.43, 0.85) and 0.71 (95% Wald CI: 0.51, 0.99) which correspond to a
-40% and 29% reduction in the growth rate relative to control, respectively (Fig. 3).
+were 0.60 (95% CI: 0.43, 0.85) and 0.71 (95% CI: 0.51, 0.99) which correspond to a
+40% and 29% reduction in the growth rate relative to control, respectively (Fig. 2).
 
+\begin{figure}
 \begin{center}
-\begin{figure}[H]
-\includegraphics[width = 6in, height = 8in]{figures/mixed_forest.pdf}
+\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/mixed_forest.pdf}}
 \caption{Forest plot of exponentiated mixed effects model interaction coefficients.
 The coefficients represent the change in the ratio of mean volume in treatment versus control
 over time. Red points indicate the growth rate is reduced in the treatment group,
 while blue points indicate the growth rate is increased in the treatment group.
 Horizontal bars indicate 95\% confidence intervals.}
-\end{figure}
 \end{center}
+\end{figure}
 
 The aim of the AFT analysis was to determine if treatment could extend the
 time to a specific volume endpoint. This analysis can be seen as complementary
@@ -211,15 +215,15 @@ Therefore an imputed model was tested to determine if the naive model was
 sensitive to the exact time to 1500mm^3^. Surprisingly, aside from 5-FU imputation
 had a very minor effect on estimates of the acceleration factors (Fig. 3)
 
+\begin{figure}
 \begin{center}
-\begin{figure}[H]
-\includegraphics[width = 6in, height = 5in]{figures/aft_models_overlaid_forest.pdf}
+\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/aft_models_overlaid_forest.pdf}}
 \caption{Forest plot of AFT acceleration factors.
 These represent the ratio of the mean time to 1500mm$^3$ in treatment versus control.
 Red points indicate that time to 1500mm$^3$ is extended relative to control,
 while blue points indicate the time is shortened.}
-\end{figure}
 \end{center}
+\end{figure}
 
 
 Discussion
@@ -232,14 +236,14 @@ Results from the mixed model show that all the drugs--aside from vemurafenib--
 reduced the growth rate relative to control, however,
 the reductions range from modest to essentially null (Fig. 2).
 Irinotecan and 5-FU are two frequently used drugs approved by the FDA for the treatment of colon cancer.
-Each have been shown to improve overall survival (REF labianca, fujita, nci)
+Each have been shown to improve overall survival[@labianca_colon_2010; @fujita_irinotecan_2015; @noauthor_drugs_2011].
 and had comparable effect sizes in this analysis.
 Gemcitabine is not FDA approved for colon cancer, but further study
 may be warranted as it was found to modestly reduce tumor growth rates in this analysis.
 Vemurafenib is an outlier in this dataset, being the only drug that showed
 increased tumor growth relative to control.
 Vemurafenib has been shown to improve progression free survival in patients
-with a *BRAF*^V600E^ mutation (REF kopetz), but is not FDA approved for
+with a *BRAF*^V600E^ mutation[@kopetz_randomized_2021], but is not FDA approved for
 colon cancer. It is possible that the group of
 vemurafenib treated tumors were particularly fast growing and clearly resistant
 to treatment.
@@ -308,7 +312,7 @@ or explore ways to weight mice with more observations over a longer duration
 to get better estimates of the growth rate.
 Additional work could explore censoring-like indicators to account for mice
 having short observations times due to experimental or ethical constraints,
-rather than simply being missing. (REF Tan)
+rather than simply being missing[@tan_repeated-measures_2005].
 
 While this analysis addressed the issue of "error" in assessment of the time
 to 1500mm^3^ by using a mixed model imputed time, this approached introduced another
@@ -319,7 +323,7 @@ produce more honest standard error estimates.
 
 Lastly, Evrard et al report "Animal Health" as one of the primary study endpoints
 for PDMR data. According to PDMR SOPs, mice may be weighed more frequently
-if "clinical signs are noted" (REF PDMR SOP). Therefore,
+if "clinical signs are noted"[@evrard_systematic_2020; @noauthor_patient-derived_nodate]. Therefore,
 the number of measurements on the mouse may be related to the health
 and overall outcome of the mouse, which may potentially bias estimates
 from the mixed model. Future work could assess how informative observation numbers
@@ -327,15 +331,5 @@ impact estimates of drug efficacy.
 
 References
 ==========
-
-1) Tentler JJ, Tan AC, Weekes CD, et al. Patient-derived tumour xenografts as models for oncology drug development. Nat Rev Clin Oncol. 2012;9(6):338-350. Published 2012 Apr 17. doi:10.1038/nrclinonc.2012.61
-The NCI Patient-Derived Models Repository (PDMR), NCI-Frederick, Frederick National Laboratory for Cancer Research, Frederick, MD. https://pdmr.cancer.gov/. 
-Drugs approved for colon and rectal cancer. National Cancer Institute. https://www.cancer.gov/about-cancer/treatment/drugs/colorectal#1. Accessed April 30, 2022. 
-Tan M, Fang HB, Tian GL, Houghton PJ. Repeated-measures models with constrained parameters for incomplete data in tumour xenograft experiments. Stat Med. 2005;24(1):109-119. doi:10.1002/sim.1775
-Fujita K, Kubota Y, Ishida H, Sasaki Y. Irinotecan, a key chemotherapeutic drug for metastatic colorectal cancer. World J Gastroenterol. 2015;21(43):12234-12248. doi:10.3748/wjg.v21.i43.12234
-Labianca R, Beretta GD, Kildani B, et al. Colon cancer. Crit Rev Oncol Hematol. 2010;74(2):106-133. doi:10.1016/j.critrevonc.2010.01.010
-Kopetz S, Guthrie KA, Morris VK, et al. Randomized Trial of Irinotecan and Cetuximab With or Without Vemurafenib in BRAF-Mutant Metastatic Colorectal Cancer (SWOG S1406). J Clin Oncol. 2021;39(4):285-294. doi:10.1200/JCO.20.01994
-
-
 
 
