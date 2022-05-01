@@ -105,7 +105,7 @@ was observed, so that the time origin was 0 for all samples.
 For example, if the mouse was staged on observation day 30,
 this became day 0, and all subsequent measurements on this mouse were scaled to
 days since day 30. Days were then rescaled to months.
-All data processing and analysis were conducted using R/v4.1.0 ([@r-core]).
+All data processing and analysis were conducted using R/v4.1.0[@r-core].
 
 ### Mixed Effects Model
 
@@ -165,9 +165,9 @@ are approximately parallel to the control group (flat or negative slopes
 are expected for highly active treatments). Strangely, vemurafenib treated
 tumors appear to be growing faster than control.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
-\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/growth_rescaled_days.pdf}}
+\shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/growth_rescaled_days.pdf}}
 \caption{Log tumor volumes over time.
 Black lines indicate each mouses' growth curve.
 Colored lines are simple linear regressions of log-volume versus time,
@@ -188,9 +188,9 @@ tumor growth rates compared to control. The relative growth rates
 were 0.60 (95% CI: 0.43, 0.85) and 0.71 (95% CI: 0.51, 0.99) which correspond to a
 40% and 29% reduction in the growth rate relative to control, respectively (Fig. 2).
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
-\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/mixed_forest.pdf}}
+\shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/mixed_forest.pdf}}
 \caption{Forest plot of exponentiated mixed effects model interaction coefficients.
 The coefficients represent the change in the ratio of mean volume in treatment versus control
 over time. Red points indicate the growth rate is reduced in the treatment group,
@@ -215,9 +215,9 @@ Therefore an imputed model was tested to determine if the naive model was
 sensitive to the exact time to 1500mm^3^. Surprisingly, aside from 5-FU imputation
 had a very minor effect on estimates of the acceleration factors (Fig. 3)
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
-\shadowbox{\includegraphics[width = 6in, height = 5in]{figures/aft_models_overlaid_forest.pdf}}
+\shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/aft_models_overlaid_forest.pdf}}
 \caption{Forest plot of AFT acceleration factors.
 These represent the ratio of the mean time to 1500mm$^3$ in treatment versus control.
 Red points indicate that time to 1500mm$^3$ is extended relative to control,
