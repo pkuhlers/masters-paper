@@ -1,10 +1,11 @@
 ---
-title: "Model Based Analysis of Patient Derived Xenograft Growth Curves"
-author: "Peyton Kuhlers"
-date: "`r Sys.Date()`"
 output:
   pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
     extra_dependencies: ["setspace", "float", "fancybox", "graphicx"]
+mainfont: Times New Roman
+fontsize: 12pt
 bibliography: citations.bib
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/american-medical-association.csl
 ---
@@ -13,6 +14,42 @@ csl: https://raw.githubusercontent.com/citation-style-language/styles/master/ame
 knitr::opts_chunk$set(echo = F)
 ```
 
+\newgeometry{top=2in,left=1in,right=1in}
+\begin{titlepage}
+\begin{center}
+
+
+  MODEL BASED ANALYSIS OF PATIENT DERIVED XENOGRAFT GROWTH CURVES
+  \vspace{1in}
+  
+  Peyton Kuhlers
+  \vspace*{1in}
+  
+  A master's paper submitted to the faculty at the University of North Carolina at Chapel Hill
+  in partial fulfillment of the requirements for the degree of Master of Science in the
+  Department of Biostatistics in the Gillings School of Global Public Health.
+  \vspace{1in}
+  
+  \begin{singlespace}
+  Chapel Hill\\
+  
+  2022
+  \end{singlespace}
+  \vspace{1in}
+  
+\begin{doublespace}
+  \begin{flushright}
+    \begin{tabular}{l@{}}
+      Approved by:\\Bahjat Qaqish\\Baiming Zou
+    \end{tabular}
+  \end{flushright}
+\end{doublespace}
+
+\end{center}
+\end{titlepage}
+
+
+\restoregeometry
 \doublespacing
 
 Abstract
@@ -35,6 +72,8 @@ and 1.39 (95% CI: 1.32, 1.46), respectively. A time-imputed AFT model was used t
 the effect of error in the measurement of the time to 1500mm^3^. Acceleration
 factors remained largely unchanged between naive and imputed AFT models,
 indicating time to 1500mm^3^ was measured relatively accurately.
+
+\newpage
 
 Introduction
 =============
@@ -113,7 +152,7 @@ Tumor volumes were analyzed using generalized linear mixed effects models.
 Fixed effects included were time and the time-drug interaction.
 The drug main effect was not included to model equal mean volume
 at baseline amongst all treatment groups.
-Volumes were assumed to be normally distributed and log-linearly
+Volumes were assumed to be normally distributed with the log of the mean linearly
 related to the covariates.
 A random intercept and random time slope were included for each mouse.
 Models were fit using the R package `lme4`/v1.1.27[@bates].
@@ -168,10 +207,12 @@ tumors appear to be growing faster than control.
 \begin{figure}[H]
 \begin{center}
 \shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/growth_rescaled_days.pdf}}
+\begin{singlespace}
 \caption{Log tumor volumes over time.
 Black lines indicate each mouses' growth curve.
 Colored lines are simple linear regressions of log-volume versus time,
 separated by each treatment group}
+\end{singlespace}
 \end{center}
 \end{figure}
 
@@ -179,7 +220,7 @@ The aim of the mixed effects model analysis was to model the trajectory
 of the growth curve and determine if treatments slow tumor growth.
 Therefore, we are interested in the growth rate (slope) of the tumor growth curve.
 The mixed model coefficients represent the growth rates for each treatment,
-relative to the control groups growth. The coefficients can
+relative to the control group's growth. The coefficients can
 also be interpreted as the change in the ratio of the mean volume in the
 treatment group compared to control per month.
 Values less than 1 indicate the treatment reduces the growth rate relative to control.
@@ -191,11 +232,13 @@ were 0.60 (95% CI: 0.43, 0.85) and 0.71 (95% CI: 0.51, 0.99) which correspond to
 \begin{figure}[H]
 \begin{center}
 \shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/mixed_forest.pdf}}
+\begin{singlespace}
 \caption{Forest plot of exponentiated mixed effects model interaction coefficients.
 The coefficients represent the change in the ratio of mean volume in treatment versus control
 over time. Red points indicate the growth rate is reduced in the treatment group,
 while blue points indicate the growth rate is increased in the treatment group.
 Horizontal bars indicate 95\% confidence intervals.}
+\end{singlespace}
 \end{center}
 \end{figure}
 
@@ -218,10 +261,12 @@ had a very minor effect on estimates of the acceleration factors (Fig. 3)
 \begin{figure}[H]
 \begin{center}
 \shadowbox{\includegraphics[width = 6in, height = 4.5in]{figures/aft_models_overlaid_forest.pdf}}
+\begin{singlespace}
 \caption{Forest plot of AFT acceleration factors.
 These represent the ratio of the mean time to 1500mm$^3$ in treatment versus control.
-Red points indicate that time to 1500mm$^3$ is extended relative to control,
-while blue points indicate the time is shortened.}
+Blue points indicate estimates from the naive model
+and red points indicate estimates from the imputed model.}
+\end{singlespace}
 \end{center}
 \end{figure}
 
@@ -251,7 +296,7 @@ to treatment.
 AFT models were also explored in this analysis. As aforementioned,
 AFT models could be a complementary approach to area under the growth curve (AUC).
 Both AUC and AFT analyses summarize the growth curve to a single number -- AUC or time to the endpoint
-which can be useful with the growth curves have complex shapes.
+which can be useful when growth curves have complex shapes.
 For example, as seen in Fig. 1, some mice experience a period of tumor regression
 followed by rapid tumor growth. Modeling this relationship is difficult
 and may quickly become ad-hoc and produce overfitted models (especially
@@ -268,20 +313,19 @@ While these results corresponds to the observed growth rates from the mixed mode
 all of the acceleration factors were significant, while only a few of
 the relative growth rates were. 
 The discrepancy in effective drugs found by the two models could potentially be explained
-by differences in baseline tumor volume. If two groups have the same slope
-but different intercepts, the group with the higher intercept will reach
+by differences in baseline tumor volume. If two groups have the same growth rate (slope)
+but different baseline volumes (intercepts), the group with the higher intercept will reach
 the endpoint first simply by being heavier at baseline, not because the treatment was effective.
-While the experimental design and protocol justify the assumption,
+While the experimental design and protocol justify the equal baseline assumption,
 its possible in practice inefficiencies in staging mice result in group level
 differences at baseline. Additionally, the linear relationship may be poor approximations
 of the true growth trajectory causing true differences in growth rates to be masked.
 The discrepancy could also be simply
 because small numerical differences in the growth rates (while statistically insignificant)
 result in the overall time to 1500mm^3^ to be different.
-
-Time to 1500mm^3^ is an artificial endpoint used for exploratory purposes in this analysis
+Time to 1500mm^3^ is also an artificial endpoint used for exploratory purposes in this analysis
 and future experiments could set more meaningful volume endpoints that
-may dramatically change these results.
+may change these results.
 
 Interestingly, imputing the time to 1500mm^3^ using estimates from the mixed model do not
 dramatically change acceleration factor. The interquartile range of the difference
