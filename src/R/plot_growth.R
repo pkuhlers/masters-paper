@@ -24,21 +24,31 @@ ggplot(vol, aes(x = days_since_first, y = log(TUMOR_WT), color = ExpNameCSV)) +
 
 ## Readjusted time origin facet by drug
 pdf("figures/growth_rescaled_days_drug_facet.pdf")
-ggplot(vol, aes(x = days_since_first, y = log(TUMOR_WT))) +
+ggplot(vol, aes(x = (days_since_first), y = log(TUMOR_WT))) +
   geom_line(alpha = 0.5, aes(group = ID)) +
+  # geom_smooth(method = 'loess', formula = y~x, se = F) +
   geom_smooth(method = 'lm', formula = y~x, se = F) +
   facet_wrap(~ AgentName) +
   guides(color = "none") +
-  labs(x = "Observation Day", y = expression(paste("Log Tumor Volume (m", m^3, ")")))
+  labs(x = "Days Since Staging", y = expression(paste("Log Tumor Volume (m", m^3, ")")))
 dev.off()
 
 ## Readjust time origin and slopes for each drug
 pdf("figures/growth_rescaled_days.pdf")
-ggplot(vol, aes(x = days_since_first, y = log(TUMOR_WT))) +
+ggplot(vol, aes(x = (days_since_first), y = log(TUMOR_WT))) +
   geom_line(alpha = 0.2, aes(group = ID)) +
   geom_smooth(method = 'lm', formula = y~x, se = F, aes(color = AgentName)) +
+  # geom_smooth(method = 'loess', formula = y~x, se = F) +
   labs(x = "Days Since Staging", y = expression(paste("Log Tumor Volume (m", m^3, ")")))
 dev.off()
+
+## Readjust time origin + mean profile rather than indiv. profile
+v <- vol %>% group_by(days_since_first, drug) %>% summarize(avgwt = mean(log(TUMOR_WT)))
+ggplot(v, aes(x = days_since_first, y = avgwt)) +
+  geom_line() +
+  geom_smooth(method = "lm", se = F) +
+  ggpubr::stat_regline_equation() +
+  facet_wrap(~ drug)
 
 ## Maximum volume distribution
 pdf("figures/max_vol_hist.pdf")
